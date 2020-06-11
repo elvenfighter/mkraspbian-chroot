@@ -176,7 +176,8 @@ echo && echo "Creating chroot named: $CHROOT"
                 	    echo 'You can manualy download the key from: http://archive.raspbian.org/raspbian.public.key'
                 	    echo
 		        fi
-		sudo qemu-debootstrap --verbose --keyring /etc/apt/trusted.gpg --arch armhf --foreign "$DIST" "$DIR/$CHROOT" "$MIRROR"
+		# --foreign is suppplied by qemu-debootstrap itself
+		sudo qemu-debootstrap --verbose --keyring /etc/apt/trusted.gpg --arch armhf "$DIST" "$DIR/$CHROOT" "$MIRROR"
 	else
 		Usage
 		exit 0
@@ -186,7 +187,8 @@ if [ $? != 0 ] ; then
 	RETRY=3
 	while [ $RETRY != 0 ] ; do
 		echo "Debootstrap failed, will retry in 10 seconds" && sleep 10
-		sudo qemu-debootstrap --verbose --keyring /etc/apt/trusted.gpg --arch armhf --foreign "$DIST" "$DIR/$CHROOT" http://archive.raspbian.org/raspbian
+		# --foreign is suppplied by qemu-debootstrap itself
+		sudo qemu-debootstrap --verbose --keyring /etc/apt/trusted.gpg --arch armhf "$DIST" "$DIR/$CHROOT" http://archive.raspbian.org/raspbian
 		if [ $? != 0 ] ; then
 			RETRY=`expr $RETRY - 1`
 		fi
