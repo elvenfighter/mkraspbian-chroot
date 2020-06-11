@@ -152,24 +152,14 @@ fi
 set -e
 clear
 
-DEPS=0
-
-if [ ! -f `which debootstrap` ] ; then
-	echo '(!!)  Missing dependency: debootstrap'
-	DEPS="${DEPS}1"
-elif [ ! -f `which qemu-debootstrap` ] ; then
-	echo '(!!)  Missing dependency: qemu-debootstrap'
-	DEPS="${DEPS}1"
-elif [ ! -f `which qemu-debootstrap` ] ; then
-	echo '(!!)  Missing dependency: qemu-arm-static'
-	DEPS="${DEPS}1"
-fi
-
-if [ "$DEPS" != 0 ] ; then
-	echo && echo 'Cannot continue, please install the missing dependencies.'
+for DEP in debootstrap qemu-debootstrap qemu-arm-static; do
+	type -p "$DEP" > /dev/null && continue
+	echo "(!!) Missing dependency: $DEP"
+	echo
+	echo 'Cannot continue, please install the missing dependencies.'
 	echo
 	exit 1
-fi
+done
 
 echo && echo "Creating chroot named: $CHROOT"
 	echo "from raspbian release: $DIST"
