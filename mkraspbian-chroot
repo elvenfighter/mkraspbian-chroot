@@ -150,7 +150,6 @@ else
 fi
 
 set -e
-clear
 
 for DEP in debootstrap qemu-debootstrap qemu-arm-static; do
 	type -p "$DEP" > /dev/null && continue
